@@ -31,4 +31,12 @@ func main() {
 	sort.Ints(highScores)
 	fmt.Println("Value of highScores is: ", highScores)
 	fmt.Println("Is highScores slices sorted? ", sort.IntsAreSorted(highScores))
+
+	// how to remove a value from a slices based on index
+	fmt.Println()
+	var courses = []string{"reactjs", "javascript", "swift", "python", "ruby"}
+	fmt.Println("Value of courses is ", courses)
+	var index int = 2
+	courses = append(courses[:index], courses[index+1:]...)
+	fmt.Println("Value of courses is ", courses)
 }
