@@ -14,5 +14,8 @@ func Ch1() {
 	// ch1.Echo1()
 
 	// 3. Echo2 Program
-	ch1.Echo2()
+	// ch1.Echo2()
+
+	// 4. Echo3 Program
+	ch1.Echo3()
 }
