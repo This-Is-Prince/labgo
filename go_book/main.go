@@ -17,8 +17,11 @@ func Ch1() {
 	// ch1.Echo2()
 
 	// 4. Echo3 Program
-	ch1.Echo3()
+	// ch1.Echo3()
 
 	// 5. Dup1 Program
-	ch1.Dup1()
+	// ch1.Dup1()
+
+	// 6. Dup2 Program
+	ch1.Dup2()
 }
