@@ -7,5 +7,9 @@ func main() {
 }
 
 func Ch1() {
-	ch1.HelloWorld()
+	// 1. Hello World
+	// ch1.HelloWorld()
+
+	// 2. Echo1 Program
+	ch1.Echo1()
 }
