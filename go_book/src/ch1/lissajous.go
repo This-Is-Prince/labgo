@@ -19,11 +19,11 @@ const (
 )
 
 func Lissajous() {
-	lissajous(os.Stdout)
+	lissajous(os.Stdout, 5.)
 }
-func lissajous(out io.Writer) {
+func lissajous(out io.Writer, cycles float64) {
 	const (
-		cycles  = 5     // number of complete x oscillator revolutions
+		// cycles  = 5 // number of complete x oscillator revolutions
 		res     = 0.001 // angular resolution
 		size    = 100   // image canvas covers [-size..+size]
 		nframes = 64    // number of animation frames

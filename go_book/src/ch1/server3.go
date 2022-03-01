@@ -4,10 +4,24 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func Server3() {
-	http.HandleFunc("/", handler3)
+	// http.HandleFunc("/", handler3)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			log.Print(err)
+		}
+		cyclesParam := r.Form.Get("cycles")
+		log.Print(cyclesParam)
+		cycles, err := strconv.Atoi(cyclesParam)
+		if err != nil {
+			log.Print(err)
+			cycles = 5
+		}
+		lissajous(w, float64(cycles))
+	})
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
