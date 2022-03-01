@@ -41,5 +41,8 @@ func Ch1() {
 	// ch1.Server1()
 
 	// 12. Server2 Program
-	ch1.Server2()
+	// ch1.Server2()
+
+	// 12. Server3 Program
+	ch1.Server3()
 }

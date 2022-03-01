@@ -5,6 +5,7 @@ import (
 	"image"
 	"image/color"
 	"image/gif"
+	"io"
 	"math"
 	"math/rand"
 	"os"
@@ -18,7 +19,9 @@ const (
 )
 
 func Lissajous() {
-	out := os.Stdout
+	lissajous(os.Stdout)
+}
+func lissajous(out io.Writer) {
 	const (
 		cycles  = 5     // number of complete x oscillator revolutions
 		res     = 0.001 // angular resolution
