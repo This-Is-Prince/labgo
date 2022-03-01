@@ -35,5 +35,8 @@ func Ch1() {
 	// ch1.Fetch()
 
 	// 10. FetchAll Program
-	ch1.FetchAll()
+	// ch1.FetchAll()
+
+	// 11. Server1 Program
+	ch1.Server1()
 }
