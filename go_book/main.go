@@ -23,5 +23,8 @@ func Ch1() {
 	// ch1.Dup1()
 
 	// 6. Dup2 Program
-	ch1.Dup2()
+	// ch1.Dup2()
+
+	// 7. Dup3 Program
+	ch1.Dup3()
 }
