@@ -32,5 +32,8 @@ func Ch1() {
 	// ch1.Lissajous()
 
 	// 9. Fetch Program
-	ch1.Fetch()
+	// ch1.Fetch()
+
+	// 10. FetchAll Program
+	ch1.FetchAll()
 }
