@@ -54,4 +54,7 @@ func Ch1() {
 func Ch2() {
 	// 1. Boiling Program
 	ch2.Boiling()
+
+	// 2. FToC Program
+	ch2.FToC()
 }
