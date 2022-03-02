@@ -1,9 +1,13 @@
 package main
 
-import "go_book/src/ch1"
+import (
+	"go_book/src/ch1"
+	"go_book/src/ch2"
+)
 
 func main() {
-	Ch1()
+	// Ch1()
+	Ch2()
 }
 
 func Ch1() {
@@ -45,4 +49,9 @@ func Ch1() {
 
 	// 12. Server3 Program
 	ch1.Server3()
+}
+
+func Ch2() {
+	// 1. Boiling Program
+	ch2.Boiling()
 }
