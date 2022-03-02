@@ -59,5 +59,8 @@ func Ch2() {
 	// ch2.FToC()
 
 	// 3. Echo4 Program
-	ch2.Echo4()
+	// ch2.Echo4()
+
+	// 4. TempConv0 Program
+	ch2.TempConv0()
 }
