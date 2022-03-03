@@ -69,5 +69,8 @@ func Ch2() {
 
 func Ch3() {
 	// 1. Surface Program
-	ch3.Surface()
+	// ch3.Surface()
+
+	// 2. Mandelbrot Program
+	ch3.Mandelbrot()
 }
