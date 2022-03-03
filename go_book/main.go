@@ -3,11 +3,13 @@ package main
 import (
 	"go_book/src/ch1"
 	"go_book/src/ch2"
+	"go_book/src/ch3"
 )
 
 func main() {
 	// Ch1()
-	Ch2()
+	// Ch2()
+	Ch3()
 }
 
 func Ch1() {
@@ -63,4 +65,9 @@ func Ch2() {
 
 	// 4. TempConv0 Program
 	ch2.TempConv0()
+}
+
+func Ch3() {
+	// 1. Surface Program
+	ch3.Surface()
 }
