@@ -12,5 +12,7 @@ func main() {
 	// 1. Get
 	// request.Get()
 	// 2. Post (Data in JSON Form)
-	request.PostJson()
+	// request.PostJson()
+	// 3. PostForm (Data in urlencoded form)
+	request.PostForm()
 }
