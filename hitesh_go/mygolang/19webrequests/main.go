@@ -4,24 +4,31 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
-const url = "https://lco.dev"
+const myURL = "https://lco.dev"
 
 func main() {
-	fmt.Println("-----Handling Web Requests in golang-----")
+	fmt.Println("-------Making Get Web Request-------")
 
-	response, err := http.Get(url)
+	response, err := http.Get(myURL)
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Printf("Response if of type: %T", response)
-	defer response.Body.Close() // caller's responsibility to close the connection
-
-	databyte, err := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+	databytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(string(databyte))
+	// Conversion bytes to string
+	var builder strings.Builder
+	noOfBytesWritten, err := builder.Write(databytes)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("No of Bytes Written:", noOfBytesWritten)
+	content := builder.String()
+	fmt.Println("Length Of String:", len(content))
+	fmt.Println(content)
 }
