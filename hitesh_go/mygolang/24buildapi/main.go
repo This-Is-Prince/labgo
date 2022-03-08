@@ -106,6 +106,36 @@ func createOneCourse(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// update one course
+func updateOneCourse(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Update one course")
+	w.Header().Set("Content-Type", "application/json")
+
+	// first - grab id from req
+	params := mux.Vars(r)
+
+	// loops, id, remove, add with my ID
+	for index, course := range courses {
+		if course.Id == params["id"] {
+			courses = append(courses[:index], courses[index+1:]...)
+
+			var newCourse Course
+			err := json.NewDecoder(r.Body).Decode(&newCourse)
+			checkNilError(err)
+
+			newCourse.Id = params["id"]
+			courses = append(courses, newCourse)
+
+			err = json.NewEncoder(w).Encode(newCourse)
+			checkNilError(err)
+			return
+		}
+	}
+	json.NewEncoder(w).Encode(fmt.Sprintf("No course with id `%v`", params["id"]))
+	return
+}
+
+// Check nil error
 func checkNilError(err error) {
 	if err != nil {
 		panic(err)
