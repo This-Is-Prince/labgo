@@ -135,6 +135,24 @@ func updateOneCourse(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// delete one course
+func deleteOneCourse(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Delete one course")
+	w.Header().Set("Content-Type", "application/json")
+
+	params := mux.Vars(r)
+
+	// loop, id remove (index, index+1)
+	for index, course := range courses {
+		if course.Id == params["id"] {
+			courses = append(courses[:index], courses[index+1:]...)
+			json.NewEncoder(w).Encode(course)
+			return
+		}
+	}
+	json.NewEncoder(w).Encode(fmt.Sprintf("No course with id `%v`", params["id"]))
+}
+
 // Check nil error
 func checkNilError(err error) {
 	if err != nil {
