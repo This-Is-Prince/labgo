@@ -5,38 +5,46 @@ import (
 	"net/url"
 )
 
-const myUrl string = "https://lco.dev:3000/learn?coursename=reactjs&paymentid=ghbj456ghb"
+const myURL string = "https://lco.dev:3000/learn?coursename=reactjs,angularjs&paymentid=ghbj45ghb,abcsghbj4"
 
 func main() {
-	fmt.Println("---------Handling URLs in golang---------")
-	fmt.Println(myUrl)
+	fmt.Println("----------Handling URLs in Golang----------")
 
-	// parsing
-	result, _ := url.Parse(myUrl)
+	// Parsing A URL
+	result, err := url.Parse(myURL)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Scheme:-", result.Scheme)
+	fmt.Println("Hosname:-", result.Hostname())
+	fmt.Println("Port:-", result.Port())
+	fmt.Println("Host:-", result.Host)
+	fmt.Println("Path:-", result.Path)
+	fmt.Println("RawQuery:-", result.RawQuery)
+	fmt.Println("User:-", result.User)
+	fmt.Println("RawFragment:-", result.RawFragment)
+	fmt.Println("Opaque:-", result.Opaque)
+	fmt.Println("Fragment:-", result.Fragment)
+	fmt.Println("ForceQuery:-", result.ForceQuery)
 
-	// fmt.Println(result.Scheme)
-	// fmt.Println(result.Host)
-	// fmt.Println(result.Path)
-	// fmt.Println(result.Port())
-	// fmt.Println(result.RawQuery)
-
+	fmt.Println("---------Query Parameters---------")
 	qparams := result.Query()
-	fmt.Printf("The type of query params are: %T\n", qparams)
-	fmt.Println(qparams.Get("coursename"))
-	fmt.Println(qparams.Get("paymentid"))
-	fmt.Println(qparams["coursename"])
-	fmt.Println(qparams["paymentid"])
+	fmt.Println("Coursename:-", qparams["coursename"])
+	fmt.Println("Password:-", qparams["password"])
+	fmt.Println("PaymentId:-", qparams["paymentid"])
 
-	for _, val := range qparams {
-		fmt.Println("Param is: ", val)
+	fmt.Println("---------Query Parameters For Loop---------")
+	for key, value := range qparams {
+		fmt.Println(key, ":", value)
 	}
 
-	partsOfUrl := &url.URL{
+	// Constructing A URL
+	partsOfURL := &url.URL{
 		Scheme:  "https",
-		Host:    "lco.dev",
 		Path:    "/tutcss",
-		RawPath: "user=prince",
+		Host:    "lco.dev",
+		RawPath: "user=hitesh",
 	}
-	anotherURL := partsOfUrl.String()
+	anotherURL := partsOfURL.String()
 	fmt.Println(anotherURL)
 }
