@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -15,7 +16,7 @@ import (
 type Course struct {
 	Id     string  `json:"id"`
 	Name   string  `json:"name"`
-	Price  string  `json:"price"`
+	Price  int     `json:"price"`
 	Author *Author `json:"author"`
 }
 
@@ -35,7 +36,23 @@ func (c *Course) IsEmpty() bool {
 }
 
 func main() {
+	fmt.Println("API - LearnCodeOnline.in")
+	r := mux.NewRouter()
 
+	// seeding
+	courses = append(courses, Course{Id: "2", Name: "ReactJS", Price: 299, Author: &Author{FullName: "Prince", Website: "lco.dev"}})
+	courses = append(courses, Course{Id: "4", Name: "MERN", Price: 199, Author: &Author{FullName: "Prince", Website: "go.dev"}})
+
+	// routing
+	r.HandleFunc("/", serveHome).Methods("GET")
+	r.HandleFunc("/courses", getAllCourses).Methods("GET")
+	r.HandleFunc("/course/{id}", getOneCourse).Methods("GET")
+	r.HandleFunc("/course", createOneCourse).Methods("POST")
+	r.HandleFunc("/course/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/course/{id}", deleteOneCourse).Methods("DELETE")
+
+	// listen to a port
+	log.Fatal(http.ListenAndServe(":4000", r))
 }
 
 // controllers - file
