@@ -1,1 +1,1 @@
-# Go Practice
+# Learning Golang From Different Resources. (Courses, Books, Articles)
