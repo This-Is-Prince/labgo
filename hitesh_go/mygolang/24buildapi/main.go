@@ -3,7 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -27,7 +30,8 @@ var courses []Course
 
 // middleware, helper - file
 func (c *Course) IsEmpty() bool {
-	return c.Id == "" && c.Name == ""
+	// return c.Id == "" && c.Name == ""
+	return c.Name == ""
 }
 
 func main() {
@@ -68,4 +72,42 @@ func getOneCourse(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode("No Course found with given id.")
 	return
+}
+
+// create one course
+func createOneCourse(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Create one course")
+	w.Header().Set("Content-Type", "application/json")
+
+	// what if: body is empty
+	if r.Body == nil {
+		err := json.NewEncoder(w).Encode("Please send some data.")
+		checkNilError(err)
+		return
+	}
+	// what about - {}
+
+	var course Course
+	err := json.NewDecoder(r.Body).Decode(&course)
+	checkNilError(err)
+	if course.IsEmpty() {
+		err := json.NewEncoder(w).Encode("No data inside JSON")
+		checkNilError(err)
+		return
+	}
+
+	// generate unique id, string
+	// append course into courses
+	rand.Seed(time.Now().UnixNano())
+	course.Id = strconv.Itoa(rand.Intn(100))
+	courses = append(courses, course)
+	err = json.NewEncoder(w).Encode(course)
+	checkNilError(err)
+	return
+}
+
+func checkNilError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
