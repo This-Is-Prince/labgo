@@ -10,5 +10,7 @@ func main() {
 
 	// Web Verbs
 	// 1. Get
-	request.Get()
+	// request.Get()
+	// 2. Post (Data in JSON Form)
+	request.PostJson()
 }
