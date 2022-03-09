@@ -92,3 +92,23 @@ func deleteAllMovie() int64 {
 	fmt.Println("Movie got delete with delete count:-", deleteResult.DeletedCount)
 	return deleteResult.DeletedCount
 }
+
+// get all movies from mongodb
+func getAllMovies() []primitive.M {
+	cursor, err := collection.Find(context.Background(), bson.M{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer cursor.Close(context.Background())
+
+	// var movies []bson.M
+	var movies []primitive.M // both are same
+	for cursor.Next(context.Background()) {
+		var movie bson.M
+		if err = cursor.Decode(&movie); err != nil {
+			log.Fatal(err)
+		}
+		movies = append(movies, movie)
+	}
+	return movies
+}
