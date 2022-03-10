@@ -8,9 +8,11 @@ import (
 
 var signals = []string{"test"}
 var wg *sync.WaitGroup
+var mut *sync.Mutex
 
 func main() {
 	wg = &sync.WaitGroup{}
+	mut = &sync.Mutex{}
 	websitelist := []string{
 		"https://lco.dev",
 		"https://go.dev",
@@ -24,7 +26,9 @@ func main() {
 		wg.Add(1)
 	}
 	wg.Wait()
+	mut.Lock()
 	fmt.Println(signals)
+	mut.Unlock()
 }
 
 func getStatusCode(endpoint string) {
@@ -33,7 +37,9 @@ func getStatusCode(endpoint string) {
 	if err != nil {
 		fmt.Println("OOPS in endpoint")
 	} else {
+		mut.Lock()
 		signals = append(signals, endpoint)
+		mut.Unlock()
 		fmt.Printf("%d status code for %s\n", res.StatusCode, endpoint)
 	}
 }
