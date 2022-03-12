@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
 /* =============== Declaring a channel =============== */
@@ -527,7 +527,7 @@ func main() {
 } */
 
 /* =============== nil channel =============== */
-
+/*
 var start time.Time
 
 func init() {
@@ -549,4 +549,233 @@ func main() {
 		fmt.Println("No response")
 	}
 	fmt.Println("main() stopped")
+}
+*/
+
+/* =============== Adding timeout =============== */
+/*
+var start time.Time
+
+func init() {
+	start = time.Now()
+}
+func service1(c chan string) {
+	time.Sleep(3 * time.Second)
+	c <- "Hello from service 1"
+}
+func service2(c chan string) {
+	time.Sleep(5 * time.Second)
+	c <- "Hello from service 2"
+}
+
+func main() {
+	fmt.Println("main() started", time.Since(start))
+
+	chan1 := make(chan string)
+	chan2 := make(chan string)
+
+	go service1(chan1)
+	go service1(chan2)
+
+	select {
+	case res := <-chan1:
+		fmt.Println("Response from service 1", res, time.Since(start))
+	case res := <-chan2:
+		fmt.Println("Response from service 2", res, time.Since(start))
+	case <-time.After(3 * time.Second):
+		fmt.Println("No response received", time.Since(start))
+
+	}
+	fmt.Println("main() stopped", time.Since(start))
+}
+*/
+
+/* =============== Empty select =============== */
+/*
+func service() {
+	fmt.Println("Hello from service")
+}
+func main() {
+	fmt.Println("main() started")
+
+	go service()
+	select {}
+
+	fmt.Println("main() stopped") // Unreachable code
+}
+*/
+
+/* =============== WaitGroup =============== */
+/*
+func service(wg *sync.WaitGroup, instance int) {
+	defer wg.Done() // decrement counter
+	time.Sleep(2 * time.Second)
+	fmt.Println("Service called on instance", instance)
+}
+
+func main() {
+	fmt.Println("main() started")
+	var wg sync.WaitGroup // create waitgroup (empty struct)
+
+	for i := 1; i <= 3; i++ {
+		wg.Add(1) // increment counter
+		go service(&wg, i)
+	}
+
+	wg.Wait() // blocks here
+	fmt.Println("main() stopped")
+}
+*/
+
+/* =============== Worker Pool =============== */
+/*
+var start time.Time
+
+func init() {
+	start = time.Now()
+}
+
+// worker than make squares
+func sqlWorker(tasks <-chan int, results chan<- int, instance int) {
+	for num := range tasks {
+		time.Sleep(time.Millisecond) // simulating blocking task
+		fmt.Printf("[worker %v] Sending result by worker %v\n", instance, instance)
+		results <- num * num
+	}
+}
+
+func main() {
+	fmt.Println("[main] main() started", time.Since(start))
+
+	tasks := make(chan int, 10)
+	results := make(chan int, 10)
+
+	// launching 3 worker goroutines
+	for i := 0; i < 3; i++ {
+		go sqlWorker(tasks, results, i)
+	}
+
+	// passing 5 tasks
+	for i := 0; i < 5; i++ {
+		tasks <- i * 2 // non-blocking as buffer capacity is 10
+	}
+
+	fmt.Println("[main] Wrote 5 tasks")
+
+	// closing tasks
+	close(tasks)
+
+	// receiving results from all workers
+	for i := 0; i < 5; i++ {
+		result := <-results // blocking because buffer is empty
+		fmt.Println("[main] Result", i, ":", result)
+	}
+
+	fmt.Println("[main] main() stopped", time.Since(start))
+}
+*/
+
+/* =============== Worker Pool With WaitGroup =============== */
+/*
+var start time.Time
+
+func init() {
+	start = time.Now()
+}
+
+// worker than make squares
+func sqlWorker(wg *sync.WaitGroup, tasks <-chan int, results chan<- int, instance int) {
+	for num := range tasks {
+		time.Sleep(time.Millisecond) // simulating blocking task
+		fmt.Printf("[worker %v] Sending result by worker %v\n", instance, instance)
+		results <- num * num
+	}
+	wg.Done()
+}
+
+func main() {
+	fmt.Println("[main] main() started", time.Since(start))
+
+	wg := &sync.WaitGroup{}
+	tasks := make(chan int, 10)
+	results := make(chan int, 10)
+
+	// launching 3 worker goroutines
+	for i := 0; i < 3; i++ {
+		wg.Add(1)
+		go sqlWorker(wg, tasks, results, i)
+	}
+
+	// passing 5 tasks
+	for i := 0; i < 5; i++ {
+		tasks <- i * 2 // non-blocking as buffer capacity is 10
+	}
+
+	fmt.Println("[main] Wrote 5 tasks")
+
+	// closing tasks
+	close(tasks)
+
+	wg.Wait()
+
+	// receiving results from all workers
+	for i := 0; i < 5; i++ {
+		result := <-results // blocking because buffer is empty
+		fmt.Println("[main] Result", i, ":", result)
+	}
+
+	fmt.Println("[main] main() stopped", time.Since(start))
+}
+*/
+
+/* =============== Mutex =============== */
+/*
+var i int // i==0
+
+// goroutine increment global variable i
+func worker(wg *sync.WaitGroup) {
+	i = i + 1
+	wg.Done()
+}
+
+func main() {
+	var wg sync.WaitGroup
+
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go worker(&wg)
+	}
+
+	// wait until all 1000 goroutines are done
+	wg.Wait()
+
+	// value of i should be 1000
+	fmt.Println("value of i after 1000 operations is", i) // i will be less than 1000 or equal to 1000 everything happens
+}
+*/
+
+var i int // i==0
+
+// goroutine increment global variable i
+func worker(wg *sync.WaitGroup, mut *sync.Mutex) {
+	mut.Lock()
+	i = i + 1
+	mut.Unlock()
+	wg.Done()
+}
+
+func main() {
+	wg := &sync.WaitGroup{}
+	mut := &sync.Mutex{}
+
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go worker(wg, mut)
+	}
+
+	// wait until all 1000 goroutines are done
+	wg.Wait()
+
+	// value of i should be 1000
+	fmt.Println("value of i after 1000 operations is", i) // i will be less than 1000 or equal to 1000 everything happens
 }
