@@ -479,7 +479,7 @@ func main() {
 } */
 
 /* =============== `default` case =============== */
-
+/*
 var start time.Time
 
 func init() {
@@ -500,4 +500,53 @@ func main() {
 		fmt.Println("No goroutine available to send data", time.Since(start))
 	}
 	fmt.Println("main() stopped", time.Since(start))
+}
+*/
+
+/* =============== nil channel =============== */
+/*
+var start time.Time
+
+func init() {
+	start = time.Now()
+}
+func service(c chan string) {
+	c <- "response"
+}
+
+func main() {
+	fmt.Println("main() started")
+	var chan1 chan string
+	go service(chan1)
+
+	select {
+	case res := <-chan1: // ERROR, select (no cases) means that select statement is virtually empty because cases with nil channel are ignored. but as empty select{} statemet blocks the main goroutine and service goroutine is scheduled in its place, channel operation on nil channels throws chan send (nil chan) error.
+		fmt.Println("Response from chan1", res)
+	}
+	fmt.Println("main() stopped")
+} */
+
+/* =============== nil channel =============== */
+
+var start time.Time
+
+func init() {
+	start = time.Now()
+}
+func service(c chan string) {
+	c <- "response"
+}
+
+func main() {
+	fmt.Println("main() started")
+	var chan1 chan string
+	go service(chan1)
+
+	select {
+	case res := <-chan1: // no error, default block executed
+		fmt.Println("Response from chan1", res)
+	default:
+		fmt.Println("No response")
+	}
+	fmt.Println("main() stopped")
 }
