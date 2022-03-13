@@ -14,8 +14,7 @@ import (
 func main() {
 	fmt.Printf("os.PathSeparator => %v\n", os.PathSeparator)
 	fmt.Printf("os.PathSeparator => %c\n", os.PathSeparator)
-}
-*/
+} */
 
 /* ===== 2. os.DevNull ===== */
 /*
@@ -23,18 +22,20 @@ func main() {
 	fmt.Printf("os.DevNull => %v\n", os.DevNull)
 }
 */
-
 /* ===== 3. os.Args ===== */
 /*
 func main() {
 	fmt.Printf("os.Args => %v\n", os.Args)
+	for index, arg := range os.Args[1:] {
+		fmt.Println(index, "-", arg)
+	}
 }
 */
-
 /* ===== 4. Exiting a process with os.Exit(code int) ===== */
 // Status Code `0` indicates process was exited `Successfully`
 // Status Code `1` indicates process was exited with a `general error`
-/* func main() {
+/*
+func main() {
 	fmt.Println("main() started!")
 
 	// defer function execution
@@ -49,7 +50,8 @@ func main() {
 	time.Sleep(2 * time.Second)
 	// hello will not printed
 	fmt.Println("Hello")
-} */
+}
+*/
 
 /* ===== 5. Exiting a process with process.Kill()  ===== */
 /*
@@ -68,7 +70,8 @@ func main() {
 
 	process.Kill()
 	fmt.Println("main() stopped!")
-} */
+}
+*/
 
 /* =========== 2. Handling Environment Variables =========== */
 
@@ -212,13 +215,24 @@ func main() {
 /*
 func main() {
 	// get current user info
-	currentUser, err := user.Current()
+	// currentUser, err := user.Current()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// 	return
+	// }
+	// fmt.Printf("%#v\n", currentUser)
+	// fmt.Printf("err: %v\n", err)
+	hostName, err := os.Hostname()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	currentUser, err := user.Lookup(hostName + "\\\\HP")
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
 	fmt.Printf("%#v\n", currentUser)
-	fmt.Printf("err: %v\n", err)
 }
 */
 
