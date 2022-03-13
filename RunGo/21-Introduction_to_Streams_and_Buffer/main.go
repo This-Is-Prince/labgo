@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 	"io"
+	"strings"
 )
 
 /* ============ 1) io.Reader ============ */
-
+/*
 // MyStringData - simple struct to hold string data
 type MyStringData struct {
 	str       string
@@ -56,6 +57,104 @@ func main() {
 	p := make([]byte, 3) // slice of length `3`
 
 	// read `src` util an error is returned
+	for {
+		// read `p` bytes from `src`
+		n, err := src.Read(p)
+		fmt.Printf("%d bytes read, data: %s\n", n, p[:n])
+
+		// handle error
+		if err == io.EOF {
+			fmt.Println("--end-of-file--")
+			break
+		} else if err != nil {
+			fmt.Println("Oops! Some error occurred!", err)
+			break
+		}
+	}
+}
+*/
+
+/* ============ 2) strings.NewReader ============ */
+/*
+func main() {
+	// create data source
+	src := strings.NewReader("Hello Amazing World!")
+
+	// create a packet
+	p := make([]byte, 3) //slice of length `3`
+
+	// read `src` until an error is returned
+	for {
+		// read `p` bytes from `src`
+		n, err := src.Read(p)
+		fmt.Printf("%d bytes read, data: %s\n", n, p[:n])
+
+		// handle error
+		if err == io.EOF {
+			fmt.Println("--end-of-file--")
+			break
+		} else if err != nil {
+			fmt.Println("Oops! Some error occurred!", err)
+			break
+		}
+	}
+}
+*/
+
+/* ============ 3) ioutil.ReadAll ============ */
+/*
+func main() {
+	// create data source
+	src := strings.NewReader("Hello Amazing World!")
+
+	// read all data from `src`
+	data, err := ioutil.ReadAll(src)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	// print `data`
+	fmt.Printf("Read data of length %d : %s\n", len(data), data)
+}
+*/
+
+/* ============ 4) ioutil.ReadFull ============ */
+/*
+func main() {
+	// create data source
+	src := strings.NewReader("Hello Amazing World!") // 20 characters
+
+	// create buffer of length 14
+	buf := make([]byte, 14)
+
+	// call 1: read from `src`
+	bytesRead1, err1 := io.ReadFull(src, buf)
+	fmt.Printf("Bytes read: %d, value: `%s`, err: %v\n", bytesRead1, buf[:bytesRead1], err1)
+
+	// call 2: read from `src`
+	bytesRead2, err2 := io.ReadFull(src, buf)
+	fmt.Printf("Bytes read: %d, value: `%s`, err: %v\n", bytesRead2, buf[:bytesRead2], err2)
+
+	// call 3: read from `src`
+	bytesRead3, err3 := io.ReadFull(src, buf)
+	fmt.Printf("Bytes read: %d, value: `%s`, err: %v\n", bytesRead3, buf[:bytesRead3], err3)
+}
+*/
+
+/* ============ 5) io.LimitReader ============ */
+
+func main() {
+	// create a main data source
+	mainSrc := strings.NewReader("Hello Amazing World!") // 20 characters
+
+	// create data source from `mainSrc` with cap of `10` bytes
+	src := io.LimitReader(mainSrc, 10)
+
+	// create a packet
+	p := make([]byte, 3) // slice of length `3`
+
+	// read `src` until an error is returned
 	for {
 		// read `p` bytes from `src`
 		n, err := src.Read(p)
