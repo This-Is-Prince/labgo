@@ -7,6 +7,33 @@ import (
 	"os"
 )
 
+/*
+================================
+ALL FUNCTIONS
+
+1). os.PathSeparator
+2). os.DevNull
+3). os.Args
+4). os.Exit(code int)
+5). os.Getpid()
+6). os.FindProcess(pid)
+7). process.Kill()
+8). os.Environ()
+9). os.Getenv() and os.LookupEnv()
+10). os.Setenv() and os.Unsetenv()
+11). os.Expand() and os.ExpandEnv()
+12). os.Hostname()
+13). os.UserHomeDir()
+14). user.Current()
+15). user.Lookup(username string)
+16). os.Getwd() and os.Chdir
+17). os.Executable()
+18). os.TempDir()
+19). ioutil.TempDir(folderpath,foldername string)
+20). ioutil.TempFile(filepath, filename string)
+================================
+*/
+
 /* =========== 1. Global constants and Variables =========== */
 
 /* ===== 1. os.PathSeparator ===== */
