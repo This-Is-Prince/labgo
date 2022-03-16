@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"os"
 )
 
 /*
@@ -146,6 +145,25 @@ func main() {
 	fmt.Printf("Bytes read: %d, value: `%s`, err: %v\n", bytesRead3, buf[:bytesRead3], err3)
 }
 */
+
+/* ============ 4.1) io.ReadAtLeast ============ */
+/*
+func main() {
+	src := strings.NewReader("Hello Amazing World!")
+	buf := make([]byte, 14)
+
+	// call 1: read from `src`
+	bytesRead1, err1 := io.ReadAtLeast(src, buf, 1)
+	fmt.Printf("Bytes read: %d, value: `%s`, err: %v\n", bytesRead1, buf[:bytesRead1], err1)
+
+	// call 2: read from `src`
+	bytesRead2, err2 := io.ReadAtLeast(src, buf, 1)
+	fmt.Printf("Bytes read: %d, value: `%s`, err: %v\n", bytesRead2, buf[:bytesRead2], err2)
+
+	// call 3: read from `src`
+	bytesRead3, err3 := io.ReadAtLeast(src, buf, 1)
+	fmt.Printf("Bytes read: %d, value: `%s`, err: %v\n", bytesRead3, buf[:bytesRead3], err3)
+} */
 
 /* ============ 5) io.LimitReader ============ */
 /*
@@ -291,7 +309,7 @@ func main() {
  Standard I/O Streams
  ================
 */
-
+/*
 func main() {
 	// use `io.WriteString` to write to a `io.Writer`
 	io.WriteString(os.Stdout, "Hello World!\n")
@@ -303,4 +321,63 @@ func main() {
 	fmt.Fprint(os.Stdout, "Hello World!\n")
 	fmt.Fprintln(os.Stdout, "Hello World!") // adds new line
 	fmt.Fprintf(os.Stdout, "%s, World!\n", "Hello")
+}
+*/
+
+/*
+ ================
+ Transferring Data between streams
+ ================
+*/
+
+/* ============ io.Copy ============ */
+/*
+func main() {
+	// create a string `io.Reader` object
+	stringReader := strings.NewReader("Hello World! How are you?\n")
+
+	// copy data from `stringsReader` to `os.Stdout` (`io.Writer`)
+	io.Copy(os.Stdout, stringReader)
+}
+*/
+
+/* ============ io.CopyN ============ */
+/*
+func main() {
+	// create a string `io.Reader` object
+	stringReader := strings.NewReader("Hello World! How are you?\n")
+
+	// copy `12 bytes` data from `stringsReader`
+	// to `os.Stdout` (`io.Writer`)
+	io.CopyN(os.Stdout, stringReader, 12)
+}
+*/
+
+/* ============ io.Pipe ============ */
+
+func main() {
+	// create a pipe
+	src, dst := io.Pipe()
+
+	// start goroutine that writes data to `dst`
+	go func() {
+		dst.Write([]byte("DATA_1")) // write and block
+		dst.Write([]byte("DATA_2")) // write and block
+		dst.Close()                 // indicate EOF
+	}()
+
+	// data transfer packet
+	packet := make([]byte, 6)
+
+	// read from `src`
+	bytesRead1, err1 := src.Read(packet)
+	fmt.Printf("bytes read: %d, value: %s, err: %v\n", bytesRead1, packet, err1)
+
+	// read from `src`
+	bytesRead2, err2 := src.Read(packet)
+	fmt.Printf("bytes read: %d, value: %s, err: %v\n", bytesRead2, packet, err2)
+
+	// read from `src`
+	bytesRead3, err3 := src.Read(packet)
+	fmt.Printf("bytes read: %d, value: %s, err: %v\n", bytesRead3, packet, err3)
 }
