@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 /* ========= Declaring Interface ========= */
 /*
@@ -128,7 +126,7 @@ func main() {
 */
 
 /* ========= Type assertion ========= */
-
+/*
 type Shape interface {
 	Area() float64
 }
@@ -158,4 +156,152 @@ func main() {
 	}
 	fmt.Println("area of c of type Cube is", c.Area())
 	fmt.Println("volume of c of type Cube is", c.Volume())
+}
+*/
+
+/* ========= Is Underlying value of an interface implements any other interfaces? ========= */
+/*
+type Shape interface {
+	Area() float64
+}
+
+type Object interface {
+	Volume() float64
+}
+
+type Skin interface {
+	Color() float64
+}
+
+type Cube struct {
+	side float64
+}
+
+func (c Cube) Area() float64 {
+	return 6 * c.side * c.side
+}
+
+func (c Cube) Volume() float64 {
+	return c.side * c.side * c.side
+}
+
+func main() {
+	var s Shape = Cube{3}
+	value1, ok := s.(Object)
+	fmt.Printf("dynamic value of Shape `s` with value %v implements interface Object? %v\n", value1, ok)
+	value2, ok := s.(Skin)
+	fmt.Printf("dynamic value of Shape `s` with value %v implements interface Sin? %v\n", value2, ok)
+}
+*/
+
+/* ========= Type Switch ========= */
+/*
+func explain(i interface{}) {
+	switch i.(type) {
+	case string:
+		fmt.Println("i stored string", strings.ToUpper(i.(string)))
+	case int:
+		fmt.Println("i stored int", i)
+	default:
+		fmt.Println("i stored something else", i)
+	}
+}
+func main() {
+	explain("Hello World")
+	explain(52)
+	explain(true)
+}
+*/
+
+/* ========= Embedding Interfaces ========= */
+/*
+type Shape interface {
+	Area() float64
+}
+
+type Object interface {
+	Volume() float64
+}
+
+type Material interface {
+	Shape
+	Object
+}
+
+type Cube struct {
+	side float64
+}
+
+func (c Cube) Area() float64 {
+	return 6 * c.side * c.side
+}
+
+func (c Cube) Volume() float64 {
+	return c.side * c.side * c.side
+}
+
+func main() {
+	c := Cube{3}
+	var m Material = c
+	var s Shape = c
+	var o Object = c
+	fmt.Printf("dynamic type and value of interface `m` of static type Material is `%T` and `%v`\n", m, m)
+	fmt.Printf("dynamic type and value of interface `s` of static type Shape is `%T` and `%v`\n", s, s)
+	fmt.Printf("dynamic type and value of interface `o` of static type Object is `%T` and `%v`\n", o, o)
+}
+*/
+
+/* ========= Pointer VS Value receiver ========= */
+/*
+type Shape interface {
+	Area() float64
+	Perimeter() float64
+}
+
+type Rect struct {
+	width  float64
+	height float64
+}
+
+func (r *Rect) Area() float64 {
+	return r.width * r.height
+}
+
+func (r Rect) Perimeter() float64 {
+	return 2 * (r.width + r.height)
+}
+
+func main() {
+	r := Rect{5.0, 4.0}
+	var s Shape = r // ERROR
+	area := s.Area()
+	fmt.Println("area of rectangle is", area)
+}
+*/
+
+type Shape interface {
+	Area() float64
+	Perimeter() float64
+}
+
+type Rect struct {
+	width  float64
+	height float64
+}
+
+func (r *Rect) Area() float64 {
+	return r.width * r.height
+}
+
+func (r Rect) Perimeter() float64 {
+	return 2 * (r.width + r.height)
+}
+
+func main() {
+	r := Rect{5.0, 4.0}
+	var s Shape = &r // assigned pointer
+	area := s.Area()
+	perimeter := s.Perimeter()
+	fmt.Println("area of rectangle is", area)
+	fmt.Println("perimater of rectangle is", perimeter)
 }
