@@ -1,24 +1,43 @@
 package main
 
 import (
-	"log"
-	"os"
+	"fmt"
 	"os/exec"
 )
+
+/*
+=============
+ALL FUNCTIONS
+
+1). exec.LookPath(pathname/or cmd name string)
+2). exec.Cmd{}
+3). exec.Command(name string,args ...string)
+4). exec.Start()
+5). exec.Wait()
+6). exec.Run()
+7). cmd.Output()
+8). cmd.CombinedOutput()
+
+=============
+*/
 
 /* ============== 1) LookPath function ============== */
 /*
 func main() {
 	// find `go` executable path
-	goExecPath, err := exec.LookPath("./hello")
+	printPath("git")
+	printPath("hello")
+	printPath("go")
+}
+func printPath(cmd string) {
+	goExecPath, err := exec.LookPath(cmd)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	} else {
 		// fmt.Println(os.Executable())
 		fmt.Println("Go Executable:", goExecPath)
 	}
-}
-*/
+} */
 
 /* ============== 2) Cmd Structure ============== */
 /*
@@ -111,7 +130,7 @@ func main() {
 	}
 }
 */
-
+/*
 func main() {
 	mainExectablePath, err := exec.LookPath("./executable/main.exe")
 	if err != nil {
@@ -137,4 +156,78 @@ func main() {
 	if err := cmd.Run(); err != nil {
 		log.Fatal(err)
 	}
+} */
+
+/* func main() {
+	p, _ := exec.LookPath("cargo")
+	fmt.Println(p)
+	cmd := &exec.Cmd{
+		Path:   p,
+		Args:   []string{p, "version"},
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	}
+	if err := cmd.Run(); err != nil {
+		log.Fatal(err)
+	}
+}
+*/
+
+/* ============== Command Function  ============== */
+/*
+func main() {
+	// construct `go version` command
+	cmd := exec.Command("go", "version")
+
+	// configure `Stdout` and `Stderr`
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	// run command
+	if err := cmd.Run(); err != nil {
+		fmt.Println("Error:", err)
+	}
+}
+*/
+
+/* ============== Output method  ============== */
+/*
+func main() {
+	// construct `go version` command
+	cmd := exec.Command("go", "version")
+
+	// run command
+	if output, err := cmd.Output(); err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Printf("Output: %s\n", output)
+	}
+
+	cmd1 := exec.Command("go", "version1")
+
+	// run command
+	output, err := cmd1.Output()
+	fmt.Printf("Output: %s\n", output)
+	fmt.Println("Error:", err)
+} */
+
+/* ============== CombinedOutput method  ============== */
+
+func main() {
+	// construct `go version` command
+	cmd := exec.Command("go", "version")
+
+	// run command
+	if output, err := cmd.CombinedOutput(); err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Printf("Output: %s\n", output)
+	}
+
+	cmd1 := exec.Command("go", "version1")
+
+	// run command
+	output, err := cmd1.CombinedOutput()
+	fmt.Printf("Output: %s\n", output)
+	fmt.Println("Error:", err)
 }
