@@ -1,0 +1,4 @@
+`HELLO` Env:- PRINCE
+Arg 0). ./executable/main.exe
+Arg 1). First Arg
+Arg 2). Second Arg
