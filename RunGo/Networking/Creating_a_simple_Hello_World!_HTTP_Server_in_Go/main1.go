@@ -1,64 +1,48 @@
 package main
 
+/*
 import (
 	"fmt"
-	"io"
 	"log"
 	"net/http"
-)
+) */
 
-func main() {
-	fmt.Println("Creating a simple hello world http server in golang")
-
-	// writing_Hello_World_Server()
-	// understanding_Mux()
-	// using_Http_DefaultServeMux()
-	returning_A_Better_Response()
-}
-
+/* ============== The ListenAndServe function ============== */
 /*
-=================
-Writing a "Hello World!" Server
-=================
-*/
-// create a handler struct
-type HttpHandler struct{}
+type HttpHandler struct {
+}
 
 // implement `ServeHTTP` method on `HttpHandler` struct
 func (h HttpHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	/*
-	   // create response binary data
-	   	data := []byte("<h1>Hello World!</h1>") // slice of bytes
+		// create response binary data
+	   	// data := []byte(`Hello World!`) // slice of bytes
 
 	   	// write `data` to response
-	   	res.Write(data)
-	*/
+	   	// res.Write(data)
 
 	// write `Hello` using `io.WriteString` function
-	io.WriteString(res, "<h1>Hello")
+	io.WriteString(res, "Hello")
 
 	// write `World` using `fmt.Fprint` function
 	fmt.Fprint(res, " World! ")
 
 	// write `❤️` using simple `Write` call
-	res.Write([]byte("❤️</h1>"))
+	res.Write([]byte("❤️"))
 }
 
-func writing_Hello_World_Server() {
+func main() {
 	// create a new handler
 	handler := HttpHandler{}
 
 	// listen and serve
-	log.Fatal(http.ListenAndServe(":9000", handler))
+	http.ListenAndServe(":9000", handler)
 }
-
-/*
-=================
-Understanding ServeMux
-=================
 */
-func understanding_Mux() {
-	// create a new `ServeMux``
+
+/* ============== Understanding ServeMux ============== */
+/*
+func main() {
+	// create a new `ServeMux`
 	mux := http.NewServeMux()
 
 	// handle `/` route
@@ -72,16 +56,13 @@ func understanding_Mux() {
 	})
 
 	// listen and serve using `ServeMux`
-	log.Fatal(http.ListenAndServe(":9000", mux))
+	http.ListenAndServe(":9000", mux)
 }
-
-/*
-=================
-Using http.DefaultServeMux
-=================
 */
 
-func using_Http_DefaultServeMux() {
+/* ============== Using http.DefaultServeMux ============== */
+/*
+func main() {
 	// handle `/` route to `http.DefaultServeMux`
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		fmt.Fprint(res, "Hello World!")
@@ -93,16 +74,13 @@ func using_Http_DefaultServeMux() {
 	})
 
 	// listen and serve using `http.DefaultServeMux`
-	log.Fatal(http.ListenAndServe(":9000", nil))
+	http.ListenAndServe(":9000", nil)
 }
-
-/*
-=================
-Returning a better response
-=================
 */
 
-func returning_A_Better_Response() {
+/* ============== Returning a better response ============== */
+/*
+func main() {
 	// handle `/` route to `http.DefaultServeMux`
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		// get response headers
@@ -112,7 +90,7 @@ func returning_A_Better_Response() {
 		header.Set("Content-Type", "application/json")
 
 		// reset date header (inline call)
-		res.Header().Set("Date", "18-03-2022")
+		res.Header().Set("Date", "01/01/2020")
 
 		// set status header
 		res.WriteHeader(http.StatusBadRequest) // http.StatusBadRequest == 400
@@ -124,3 +102,4 @@ func returning_A_Better_Response() {
 	// listen and serve using `http.DefaultServeMux`
 	log.Fatal(http.ListenAndServe(":9000", nil))
 }
+*/
