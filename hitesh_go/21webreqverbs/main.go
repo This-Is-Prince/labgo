@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -11,7 +12,33 @@ import (
 func main() {
 	fmt.Println("Welcome to web verb video - LCO")
 
-	PerformGetRequest()
+	// PerformGetRequest()
+	PerformJsonRequest()
+}
+
+func PerformJsonRequest() {
+	const myUrl = "http://localhost:8000/post"
+
+	// fake json payload
+	requestBody := strings.NewReader(`
+		{
+			"coursename": "Let's go with golang",
+			"price": 0,
+			"platform": "learnCodeOnline.in"	
+		}
+	`)
+	response, err := http.Post(myUrl, "application/json", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer response.Request.GetBody()
+	content, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(string(content))
 }
 
 func PerformGetRequest() {
