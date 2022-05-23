@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -36,6 +37,24 @@ func (c *Course) IsEmpty() bool {
 func main() {
 	fmt.Println("Building API")
 
+	r := mux.NewRouter()
+
+	// seeding
+	courses = append(courses,
+		Course{Id: "2", Name: "ReactJS", Price: 299, Author: &Author{Fullname: "Hitesh Choudhary", Website: "lco.dev"}},
+		Course{Id: "4", Name: "MERN Stack", Price: 199, Author: &Author{Fullname: "Hitesh Choudhary", Website: "go.dev"}},
+	)
+
+	// routing
+	r.HandleFunc("/", serveHome).Methods("GET")
+	r.HandleFunc("/courses", getAllCourses).Methods("GET")
+	r.HandleFunc("/course/{id}", getOneCourse).Methods("GET")
+	r.HandleFunc("/course", createOneCourse).Methods("POST")
+	r.HandleFunc("/course/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/course/{id}", deleteOneCourse).Methods("DELETE")
+
+	// listen to a port
+	log.Fatal(http.ListenAndServe(":4000", r))
 }
 
 // controllers - file
