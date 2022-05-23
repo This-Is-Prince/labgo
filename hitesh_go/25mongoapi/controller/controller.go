@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/This-Is-Prince/mongoapi/model"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -41,4 +42,15 @@ func init() {
 
 	// collection reference / instance
 	fmt.Println("Collection reference / instance is ready")
+}
+
+// MONGODB helpers - file
+
+// insert 1 record
+func insertOneMovie(movie model.Netflix) {
+	inserted, err := collection.InsertOne(context.Background(), movie)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Inserted 1 movie in db with id: ", inserted.InsertedID)
 }
