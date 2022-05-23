@@ -129,4 +129,5 @@ func updateOneCourse(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	// TODO: send a response when id is not found
+	json.NewEncoder(w).Encode("Course not found with id " + id)
 }
