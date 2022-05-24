@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/This-Is-Prince/mongoapi/model"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -137,4 +138,32 @@ func GetMyAllMovies(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func CreateMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
+	w.Header().Set("Allow-Control-Allow-Methods", "POST")
+
+	var movie model.Netflix
+	err := json.NewDecoder(r.Body).Decode(&movie)
+	if err != nil {
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	insertOneMovie(movie)
+	json.NewEncoder(w).Encode("Success")
+}
+
+func MarkAsWatched(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
+	w.Header().Set("Allow-Control-Allow-Methods", "POST")
+
+	params := mux.Vars(r)
+	id, isPresent := params["id"]
+	if !isPresent {
+		json.NewEncoder(w).Encode("Please send a id")
+		return
+	}
+	updateOneMovie(id)
+	json.NewEncoder(w).Encode("Success")
 }
