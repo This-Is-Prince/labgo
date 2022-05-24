@@ -156,7 +156,7 @@ func CreateMovie(w http.ResponseWriter, r *http.Request) {
 
 func MarkAsWatched(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
-	w.Header().Set("Allow-Control-Allow-Methods", "POST")
+	w.Header().Set("Allow-Control-Allow-Methods", "PUT")
 
 	params := mux.Vars(r)
 	id, isPresent := params["id"]
@@ -166,4 +166,25 @@ func MarkAsWatched(w http.ResponseWriter, r *http.Request) {
 	}
 	updateOneMovie(id)
 	json.NewEncoder(w).Encode("Success")
+}
+
+func DeleteAMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-encode")
+	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
+
+	params := mux.Vars(r)
+	id, isPresent := params["id"]
+	if !isPresent {
+		json.NewEncoder(w).Encode("Please send a id")
+		return
+	}
+	deleteOneMovie(id)
+	json.NewEncoder(w).Encode("Success")
+}
+
+func DeleteAllMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-encode")
+	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
+
+	json.NewEncoder(w).Encode(deleteAllMovie())
 }
