@@ -102,3 +102,26 @@ func deleteAllMovie() int64 {
 	fmt.Println(result)
 	return result.DeletedCount
 }
+
+// get all movies from database
+func getAllMovies() []primitive.M {
+	cursor, err := collection.Find(context.Background(), bson.D{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer cursor.Close(context.Background())
+
+	var movies []primitive.M
+
+	for cursor.Next(context.Background()) {
+		var movie bson.M
+		if err := cursor.Decode(&movie); err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(movie)
+		movies = append(movies, movie)
+	}
+
+	return movies
+}
