@@ -2,8 +2,10 @@ package controller
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/This-Is-Prince/mongoapi/model"
@@ -124,4 +126,15 @@ func getAllMovies() []primitive.M {
 	}
 
 	return movies
+}
+
+// Actual controller - file
+func GetMyAllMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
+	allMovies := getAllMovies()
+
+	err := json.NewEncoder(w).Encode(allMovies)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
