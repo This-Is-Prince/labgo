@@ -6,7 +6,10 @@ import (
 	"sync"
 )
 
-var wg sync.WaitGroup // pointers
+var signals = []string{"test"}
+
+var wg sync.WaitGroup // pointer
+var mut sync.Mutex    // pointer
 
 func main() {
 	fmt.Println("GO Routines")
@@ -18,6 +21,10 @@ func main() {
 		go getStatusCode(web)
 	}
 	wg.Wait()
+
+	mut.Lock()
+	fmt.Println(signals)
+	mut.Unlock()
 }
 
 func getStatusCode(endpoint string) {
@@ -25,8 +32,14 @@ func getStatusCode(endpoint string) {
 	res, err := http.Get(endpoint)
 	if err != nil {
 		fmt.Println("OOPS in endpoint")
+	} else {
+
+		mut.Lock()
+		signals = append(signals, endpoint)
+		mut.Unlock()
+
+		fmt.Printf("%d status code for website %s\n", res.StatusCode, endpoint)
 	}
-	fmt.Printf("%d status code for website %s\n", res.StatusCode, endpoint)
 }
 
 // First GO ROutines
