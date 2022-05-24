@@ -25,7 +25,7 @@ var collection *mongo.Collection
 
 // connect with mongoDB
 func init() {
-	err := godotenv.Load("../.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal(err)
 	} else {
