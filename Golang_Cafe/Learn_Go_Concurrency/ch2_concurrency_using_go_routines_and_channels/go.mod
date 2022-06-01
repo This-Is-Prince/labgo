@@ -1,0 +1,3 @@
+module concurrency_using_go_routines_and_channels
+
+go 1.18
