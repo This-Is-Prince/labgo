@@ -17,7 +17,11 @@ Low-level Control: Interacting with hardware, protocols, or binary file formats.
 
 // 9 -> 1001 -> (2^3 * 1) + (2^2 * 0) + (2^1 * 0) + (2^0 * 1) -> 8 + 0 + 0 + 1 = 9
 
-func Learn() {
+func Learn(run bool) {
+	if !run {
+		return
+	}
+
 	fmt.Println("Learning bit manipulation in Go")
 
 	a := 9  // Binary: 1001
