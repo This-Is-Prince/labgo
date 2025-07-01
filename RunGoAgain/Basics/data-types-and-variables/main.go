@@ -30,6 +30,46 @@ const (
 )
 
 const (
+	a1 = iota + 1 // 1
+	b1            // 2
+	c1            // 3
+	d1            // 4
+)
+
+const (
+	aa1 = iota + 1 // 1
+	_              // 2
+	bb1            // 3
+	cc1            // 4
+	dd1            // 5
+)
+
+const (
+	// Denotes that a destination field must be copied to. If copying fails then a panic will ensue.
+	tagMust uint8 = 1 << iota
+
+	// Denotes that the program should not panic when the must flag is on and
+	// value is not copied. The program will return an error instead.
+	tagNoPanic
+
+	// Ignore a destination field from being copied to.
+	tagIgnore
+
+	// Denotes the fact that the field should be overridden, no matter if the IgnoreEmpty is set
+	tagOverride
+
+	// Denotes that the value as been copied
+	hasCopied
+
+	// Some default converter types for a nicer syntax
+	String  string  = ""
+	Bool    bool    = false
+	Int     int     = 0
+	Float32 float32 = 0
+	Float64 float64 = 0
+)
+
+const (
 	eee = iota + 1
 	_
 	fff = iota
@@ -39,6 +79,10 @@ const (
 )
 
 func main() {
+	fmt.Println(tagMust, tagNoPanic, tagIgnore, tagOverride, hasCopied)
+	fmt.Println(a1, b1, c1, d1)
+	fmt.Println(aa1, bb1, cc1, dd1)
+
 	fmt.Println("Constant:", CONST_NAME)
 	fmt.Println("Constant with type:", CONST_NAME1)
 	fmt.Println("Multiple constants:", v1, v2, v3, v4)
