@@ -4,12 +4,16 @@ import (
 	"fmt"
 
 	"github.com/imp_learning/bitmanipulation"
+	"github.com/imp_learning/copierpackage"
 	"github.com/imp_learning/reflectpackage"
+	"github.com/imp_learning/unsafepackage"
 )
 
 func main() {
 	fmt.Println("Important learning while understanding open source Go repos and their structure.")
 
 	bitmanipulation.Learn(false)
-	reflectpackage.Learn(true)
+	reflectpackage.Learn(false)
+	copierpackage.Learn(true)
+	unsafepackage.Learn(true)
 }
