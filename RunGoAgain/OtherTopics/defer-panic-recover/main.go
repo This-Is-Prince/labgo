@@ -56,6 +56,31 @@ func c() {
 	fmt.Println("Function c is returning without panic.")
 }
 
+func d() {
+	fmt.Println("Function d is called.")
+
+	defer func() {
+		fmt.Println("Deferred function in d is called.")
+		defer e()
+		fmt.Println("Deferred function in d is returning.")
+	}()
+	panic("A panic occurred in function d!")
+
+	fmt.Println("Function d is returning.")
+}
+
+func e() {
+	fmt.Println("Function e is called.")
+
+	if r := recover(); r != nil {
+		fmt.Println("Recovered in function e:", r)
+	} else {
+		fmt.Println("No panic occurred in function e.")
+	}
+
+	fmt.Println("Function e is returning.")
+}
+
 func main() {
 	fmt.Println("Starting the program...")
 
@@ -68,6 +93,7 @@ func main() {
 	}()
 
 	a()
+	d()
 	c()
 	b()
 
