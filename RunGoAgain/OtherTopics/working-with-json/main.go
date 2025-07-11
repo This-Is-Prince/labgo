@@ -27,6 +27,11 @@ func (p Profile) MarshalJSON() ([]byte, error) {
 
 type Age int
 
+func (a Age) MarshalJSON() ([]byte, error) {
+	str := fmt.Sprintf(`{"age": %d}`, int(a))
+	return []byte(str), nil
+}
+
 func (a Age) MarshalText() ([]byte, error) {
 	str := fmt.Sprintf(`{"age": %d}`, int(a))
 	return []byte(str), nil
