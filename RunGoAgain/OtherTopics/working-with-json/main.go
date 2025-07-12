@@ -43,6 +43,20 @@ type Student2 struct {
 	Profile             Profile
 }
 
+type Profile1 struct {
+	Username  string `json:"uname"`
+	Followers int    `json:"followers,omitempty,string"`
+}
+
+type Student3 struct {
+	FirstName string   `json:"fname"`
+	LastName  string   `json:"lname,omitempty"`
+	Email     string   `json:"-"`
+	Age       int      `json:"-,"`
+	IsMale    bool     `json:",string"`
+	Profile   Profile1 `json:""`
+}
+
 func main() {
 
 	john := Student{
@@ -83,4 +97,20 @@ func main() {
 
 	john2JSON, _ := json.MarshalIndent(john2, "", "  ")
 	fmt.Println(string(john2JSON))
+	fmt.Println()
+
+	john3 := &Student3{
+		FirstName: "John",
+		LastName:  "",
+		Age:       21,
+		Email:     "john@doe.com",
+		Profile: Profile1{
+			Username:  "johndoe91",
+			Followers: 1975,
+		},
+	}
+
+	john3JSON, _ := json.MarshalIndent(john3, "", "  ")
+	fmt.Println(string(john3JSON))
+	fmt.Println()
 }
