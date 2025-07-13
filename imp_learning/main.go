@@ -5,6 +5,7 @@ import (
 
 	"github.com/imp_learning/bitmanipulation"
 	"github.com/imp_learning/copierpackage"
+	"github.com/imp_learning/overflow"
 	"github.com/imp_learning/reflectpackage"
 	"github.com/imp_learning/unsafepackage"
 )
@@ -14,6 +15,7 @@ func main() {
 
 	bitmanipulation.Learn(false)
 	reflectpackage.Learn(false)
-	copierpackage.Learn(true)
-	unsafepackage.Learn(true)
+	copierpackage.Learn(false)
+	unsafepackage.Learn(false)
+	overflow.Learn(true)
 }
