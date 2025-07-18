@@ -188,4 +188,6 @@ func main() {
 	onlyInt := 100
 	fmt.Println("Only int value:", onlyInt)
 	fmt.Println("MyInt == onlyInt:", myInt == onlyInt) // true, because MyInt is an alias for int
+
+	Another()
 }
