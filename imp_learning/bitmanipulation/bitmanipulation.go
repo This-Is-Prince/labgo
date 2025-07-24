@@ -45,4 +45,16 @@ func Learn(run bool) {
 	fmt.Println("Left Shifted by 3:", num<<3, num*int(math.Pow(2.0, 3.0)))
 	num = num << 3
 	fmt.Println("Right Shifted by 3:", num>>3, num/int(math.Pow(2.0, 3.0)))
+
+	num1 := uint(0)
+	fmt.Println(^num1>>1, int(math.Pow(2.0, 64-1)-1.0), uint((math.Pow(2.0, 64-1) - 1.0)), uint(b-a))
+
+	bytess := []byte{
+		'A': 65,
+		'B': 66,
+		'C': 67,
+		'D': 68,
+	}
+
+	fmt.Println(bytess)
 }

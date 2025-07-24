@@ -15,11 +15,11 @@ import (
 func main() {
 	fmt.Println("Important learning while understanding open source Go repos and their structure.")
 
-	bitmanipulation.Learn(false)
+	bitmanipulation.Learn(true)
 	reflectpackage.Learn(false)
 	copierpackage.Learn(false)
 	unsafepackage.Learn(false)
 	overflow.Learn(false)
 	errorunderstanding.Learn(false)
-	encoderdecoder.Learn(true)
+	encoderdecoder.Learn(false)
 }

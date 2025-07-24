@@ -7,11 +7,13 @@ func main() {
 
 	condition := true
 
-	if condition {
+	if condition = false; condition {
 		fmt.Println("Condition is true")
 	} else {
 		fmt.Println("Condition is false")
 	}
+
+	fmt.Println("Condition:- ", condition)
 
 	fruit := "mangoa"
 
@@ -30,6 +32,38 @@ func main() {
 		fmt.Println("The fruit is an apple")
 	} else {
 		fmt.Println("The fruit is not an apple")
+	}
+
+	finger := 2
+
+	switch finger = 3; finger {
+	case 1:
+		{
+			fmt.Println("One")
+		}
+	case 2:
+		{
+			fmt.Println("two")
+		}
+	case 3:
+		{
+			fmt.Println("Three")
+		}
+	default:
+		{
+			fmt.Println("Default")
+		}
+	}
+
+	switch vowel := "a"; vowel {
+	case "a", "e", "i", "o", "u":
+		{
+			fmt.Println("Vowels")
+		}
+	default:
+		{
+			fmt.Println("Consonants")
+		}
 	}
 
 	// Switch statement
