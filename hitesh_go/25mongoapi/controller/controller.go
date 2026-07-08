@@ -78,6 +78,27 @@ func updateOneMovie(movieId string) {
 	fmt.Println(result)
 }
 
+// get 1 record
+func getOneMovie(movieId string) bson.M {
+	id, err := primitive.ObjectIDFromHex(movieId)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	filter := bson.M{"_id": id}
+
+	result := collection.FindOne(context.Background(), filter)
+	if result.Err() != nil {
+		log.Fatal(result.Err())
+	}
+
+	var movie bson.M
+
+	result.Decode(&movie)
+
+	return movie
+}
+
 // delete 1 record
 func deleteOneMovie(movieId string) {
 	id, err := primitive.ObjectIDFromHex(movieId)
@@ -135,6 +156,22 @@ func GetMyAllMovies(w http.ResponseWriter, r *http.Request) {
 	allMovies := getAllMovies()
 
 	err := json.NewEncoder(w).Encode(allMovies)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func GetSingleMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
+	params := mux.Vars(r)
+	id, isPresent := params["id"]
+	if !isPresent {
+		json.NewEncoder(w).Encode("Please send a id")
+		return
+	}
+	movie := getOneMovie(id)
+
+	err := json.NewEncoder(w).Encode(movie)
 	if err != nil {
 		log.Fatal(err)
 	}
